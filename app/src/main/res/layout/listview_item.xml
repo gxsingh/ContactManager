@@ -26,21 +26,42 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Phone"
             android:id="@+id/phoneNumber"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Phone"
+            android:id="@+id/wPhoneNum"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Phone"
+            android:id="@+id/oPhoneNum"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Email"
-            android:id="@+id/emailAddress" />
+            android:id="@+id/emailAddress"
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Address"
-            android:id="@+id/cAddress" />
+            android:id="@+id/cAddress"
+            android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
 </LinearLayout>

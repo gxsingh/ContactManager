@@ -31,7 +31,10 @@
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/scrollView" >
                 <LinearLayout
                     android:id="@+id/creatorTab"
                     android:layout_width="match_parent"
@@ -45,6 +48,10 @@
                         android:layout_marginTop="20dp"
                         android:src="@drawable/user"
                         android:clickable="true" />
+
+
+
+
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -67,6 +74,28 @@
                         android:ems="10"
                         android:id="@+id/contactNumber"
                         android:hint="Phone Number"
+                        android:layout_below="@+id/contactName"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:ems="10"
+                        android:id="@+id/wPhone"
+                        android:hint="Work Number"
+                        android:layout_below="@+id/contactName"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:ems="10"
+                        android:id="@+id/oPhone"
+                        android:hint="Other Number"
                         android:layout_below="@+id/contactName"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true" />
@@ -100,8 +129,9 @@
                         android:layout_below="@+id/cEmail"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="30dp" />
-                </LinearLayout>
 
+                </LinearLayout>
+            </ScrollView>
                 <LinearLayout
                     android:id="@+id/tabcontactList"
                     android:layout_width="fill_parent"

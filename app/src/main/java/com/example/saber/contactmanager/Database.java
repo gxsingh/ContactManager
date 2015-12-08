@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,13 @@ public class Database extends SQLiteOpenHelper {
 
     private static final int DB_VER = 1;
 
-    private static final String DB_NAME = "ContactManager",
+    private static final String DB_NAME = "ContactManagerr",
     TABLE_CONTACT ="contacts",
     KEYID = "id",
     KEYNAME ="name",
     KEYPHONE = "phone",
+            KEYWPHONE = "wphone",
+            KEYOPHONE = "ophone",
     KEYEMAIL = "email",
     KEYADDRESS = "address",
     KEYIMGURI = "imgURI";
@@ -34,7 +37,7 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_CONTACT + "(" + KEYID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEYNAME + " TEXT," + KEYPHONE + " TEXT," + KEYEMAIL + " TEXT," + KEYADDRESS + " TEXT," + KEYIMGURI + " TEXT)");
+        db.execSQL("CREATE TABLE " + TABLE_CONTACT + "(" + KEYID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEYNAME + " TEXT," + KEYPHONE + " TEXT," + KEYWPHONE + " TEXT,"+ KEYOPHONE + " TEXT,"+ KEYEMAIL + " TEXT," + KEYADDRESS + " TEXT," + KEYIMGURI + " TEXT)");
     }
 
     @Override
@@ -51,17 +54,15 @@ public class Database extends SQLiteOpenHelper {
 
         values.put(KEYNAME, contact.getName());
         values.put(KEYPHONE, contact.getPhone());
+        values.put(KEYWPHONE, contact.getWPhone());
+        values.put(KEYOPHONE, contact.getOPhone());
         values.put(KEYEMAIL, contact.getEmail());
         values.put(KEYADDRESS, contact.getAddress());
-        //values.put(KEYIMGURI, contact.getURIimg().toString());
-        if (contact.getURIimg() == null)
-        {
-        values.put(KEYIMGURI, ("android.resource://com.example.saber.contactmanager/res/layout/drawable/user.png" ));
-        }
-        else {
-            values.put(KEYIMGURI, "null");
-        }
+        //Log.d("Image", contact.getURIimg().toString());
+        values.put(KEYIMGURI,"android.resource://com.example.saber.contactmanager/drawable/user");
+      //  values.put(KEYIMGURI, contact.getURIimg().toString());
 
+        //values.put(KEYIMGURI, "null");
 
         db.insert(TABLE_CONTACT, null, values);
         db.close();
@@ -70,12 +71,12 @@ public class Database extends SQLiteOpenHelper {
     public Contact getContact(int id) {
         SQLiteDatabase db = getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_CONTACT, new String[] { KEYID, KEYNAME, KEYPHONE, KEYEMAIL, KEYADDRESS, KEYIMGURI }, KEYID + "=?", new String[] { String.valueOf(id) }, null, null, null, null );
+        Cursor cursor = db.query(TABLE_CONTACT, new String[] { KEYID, KEYNAME, KEYPHONE,KEYWPHONE,KEYOPHONE, KEYEMAIL, KEYADDRESS, KEYIMGURI }, KEYID + "=?", new String[] { String.valueOf(id) }, null, null, null, null );
 
         if (cursor != null)
             cursor.moveToFirst();
 
-        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), Uri.parse(cursor.getString(5)));
+        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),cursor.getString(3),cursor.getString(4), cursor.getString(5), cursor.getString(6), Uri.parse(cursor.getString(7)));
         db.close();
         cursor.close();
         return contact;
@@ -83,6 +84,7 @@ public class Database extends SQLiteOpenHelper {
 
     public void deleteContact(Contact contact) {
         SQLiteDatabase db = getWritableDatabase();
+       // db.delete(TABLE_CONTACT, KEYID + "=?", new String[] { String.valueOf(contact.getID()) });
         db.delete(TABLE_CONTACT, KEYID + "=?", new String[] { String.valueOf(contact.getID()) });
         db.close();
     }
@@ -104,9 +106,14 @@ public class Database extends SQLiteOpenHelper {
 
         values.put(KEYNAME, contact.getName());
         values.put(KEYPHONE, contact.getPhone());
+        values.put(KEYWPHONE, contact.getWPhone());
+        values.put(KEYOPHONE, contact.getOPhone());
         values.put(KEYEMAIL, contact.getEmail());
         values.put(KEYADDRESS, contact.getAddress());
-        values.put(KEYIMGURI, contact.getURIimg().toString());
+        //Log.d("Image", contact.getURIimg().toString());
+        values.put(KEYIMGURI,"android.resource://com.example.saber.contactmanager/drawable/user");
+      // values.put(KEYIMGURI, contact.getURIimg().toString());
+        //values.put(KEYIMGURI, "null");
 
         int rowsAffected = db.update(TABLE_CONTACT, values, KEYID + "=?", new String[] { String.valueOf(contact.getID()) });
         db.close();
@@ -122,7 +129,7 @@ public class Database extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                contacts.add(new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), Uri.parse(cursor.getString(5))));
+                contacts.add(new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1),cursor.getString(2),cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), Uri.parse(cursor.getString(7))));
             }
             while (cursor.moveToNext());
         }

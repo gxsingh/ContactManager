@@ -1,10 +1,16 @@
 package com.example.saber.contactmanager;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.Menu;
@@ -20,21 +26,25 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
 import android.net.Uri;
 
 public class MainActivity extends AppCompatActivity {
 
-   EditText contactName;
-    EditText   contactNumber;
-    EditText    contactEmail;
-    EditText     contactAddress;
+    EditText contactName;
+    EditText contactNumber;
+    EditText contactWNumber;
+    EditText contactONumber;
+    EditText contactEmail;
+    EditText contactAddress;
     ImageView contactPic;
-    List<Contact> Contacts=new ArrayList<Contact>();
+    List<Contact> Contacts = new ArrayList<Contact>();
     ListView contactListView;
     //Uri imgURI = Uri.parse("android.resource://com.example.saber.contactmanager/drawable/user.png" );
-    Uri imgURI = Uri.parse("android.resource://com.example.saber.contactmanager/res/layout/drawable/user.png" );
+    Uri imgURI = Uri.parse("android.resource://com.example.saber.contactmanager/drawable/user");
 
     //Uri imgURI = null;
     Database db_SQL;
@@ -44,15 +54,20 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayAdapter<Contact> contactAdapt;
 
-        private static final int DELETE = 1, EDIT = 0;
+    private static final int DELETE = 1, EDIT = 0, C_CALL = 2, C_MSG = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_main);
-       // setContentView(R.layout.content_main);
+        setContentView(R.layout.activity_main);
+        // setContentView(R.layout.content_main);
 
         contactName = (EditText) findViewById(R.id.contactName);
         contactNumber = (EditText) findViewById(R.id.contactNumber);
+
+        contactWNumber = (EditText) findViewById(R.id.wPhone);
+        contactONumber = (EditText) findViewById(R.id.oPhone);
+
         contactEmail = (EditText) findViewById(R.id.cEmail);
         contactAddress = (EditText) findViewById(R.id.contactAddress);
         contactListView = (ListView) findViewById(R.id.listView);
@@ -62,10 +77,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         registerForContextMenu(contactListView);
-        contactListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+        contactListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id){
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
                 holdingItemIdx = position;
                 return false;
@@ -73,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
+        final TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 
 
         tabHost.setup();
@@ -94,14 +109,33 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View view) {
 
-                Contact contact = new Contact(db_SQL.getContactsCount(), String.valueOf(contactName.getText()), String.valueOf(contactNumber.getText()), String.valueOf(contactEmail.getText()), String.valueOf(contactAddress.getText()), imgURI);
+                Contact contact = new Contact(db_SQL.getContactsCount(), String.valueOf(contactName.getText()), String.valueOf(contactNumber.getText()), String.valueOf(contactWNumber.getText()), String.valueOf(contactONumber.getText()), String.valueOf(contactEmail.getText()), String.valueOf(contactAddress.getText()), imgURI);
                 //Contacts.add(new Contact(0,contactName.getText().toString(), contactNumber.getText().toString(), contactEmail.getText().toString(), contactAddress.getText().toString(),imgURI));
                 if (!contactExts(contact)) {
                     db_SQL.createContact(contact);
                     Contacts.add(contact);
                     contactAdapt.notifyDataSetChanged();
                     //populateList();
+                    if (isEditMod) {
+                        Contact newContact = Contacts.get(holdingItemIdx);
+                        newContact.setName(String.valueOf(contactName.getText()));
+                        newContact.setPhone(String.valueOf(contactNumber.getText()));
+                        newContact.setWPhone(String.valueOf(contactWNumber.getText()));
+                        newContact.setOPhone(String.valueOf(contactONumber.getText()));
+                        newContact.setEmail(String.valueOf(contactEmail.getText()));
+                        newContact.setAddress(String.valueOf(contactAddress.getText()));
+                        newContact.setURIimg(imgURI);
+                        Contacts.remove(holdingItemIdx);
+                        db_SQL.updateContact(contact);
+
+                        isEditMod = false;
+                        Toast.makeText(getApplicationContext(), contactName.getText().toString() + " EDITED!", Toast.LENGTH_SHORT).show();
+                        resetPanel();
+                        tabHost.setCurrentTab(1);
+                        return;
+                    }
                     Toast.makeText(getApplicationContext(), contactName.getText().toString() + " has been added to your contacts!", Toast.LENGTH_SHORT).show();
+                    resetPanel();
                     return;
                 }
 
@@ -148,28 +182,49 @@ public class MainActivity extends AppCompatActivity {
         populateList();
     }
 
-    public void onCreateContextMenu(ContextMenu Menu, View V, ContextMenu.ContextMenuInfo MenuInformation){
+    public void onCreateContextMenu(ContextMenu Menu, View V, ContextMenu.ContextMenuInfo MenuInformation) {
 
-        super.onCreateContextMenu(Menu,V, MenuInformation);
+        super.onCreateContextMenu(Menu, V, MenuInformation);
 
         Menu.setHeaderIcon(R.drawable.pencil);
         Menu.setHeaderTitle("Options");
-        Menu.add(Menu.NONE,EDIT,Menu.NONE,"Edit Contact");
-        Menu.add(Menu.NONE,DELETE,Menu.NONE,"DEL Contact");
+        Menu.add(Menu.NONE, EDIT, Menu.NONE, "Edit Contact");
+        Menu.add(Menu.NONE, DELETE, Menu.NONE, "Del Contact");
+        Menu.add(Menu.NONE, C_CALL, Menu.NONE, "Call");
+        Menu.add(Menu.NONE, C_MSG, Menu.NONE, "Msg");
 
     }
 
-    public boolean onContextItemSelected( MenuItem Item){
+    public boolean onContextItemSelected(MenuItem Item) {
 
 
-        switch(Item.getItemId()){
+        switch (Item.getItemId()) {
             case EDIT:
-               // editmode(Contacts.get(holdingItemIdx));
+                editmode(Contacts.get(holdingItemIdx));
                 break;
             case DELETE:
                 db_SQL.deleteContact(Contacts.get(holdingItemIdx));
                 Contacts.remove(holdingItemIdx);
                 contactAdapt.notifyDataSetChanged();
+                break;
+            case C_CALL:
+
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                    //sendIntent.setType("vnd.android-dir/mms-sms");
+                    //sendIntent.putExtra("address","12125551212");
+                    callIntent.setData(Uri.parse("tel:" +(Contacts.get(holdingItemIdx).getPhone())));
+                    startActivity(callIntent);
+
+                break;
+            case C_MSG:
+
+                    Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                    //sendIntent.setType("vnd.android-dir/mms-sms");
+                    //sendIntent.putExtra("address","12125551212");
+                    sendIntent.setData(Uri.parse("sms:12125551212"));
+                    startActivity(sendIntent);
+
+
                 break;
         }
         return super.onContextItemSelected(Item);
@@ -196,14 +251,27 @@ public class MainActivity extends AppCompatActivity {
         tabhost.setCurrentTab(0);
         contactName.setText(contacts.getName());
         contactNumber.setText(contacts.getPhone());
+        contactWNumber.setText(contacts.getWPhone());
+        contactONumber.setText(contacts.getOPhone());
         contactEmail.setText(contacts.getEmail());
         contactAddress.setText(contacts.getAddress());
-        imgURI = contacts.getURIimg();
-      //  Button edit = (Button) findViewById(R.id.submit);
-       // edit.setText("Update");
+        contactPic.setImageURI(imgURI);
+        Button edit = (Button) findViewById(R.id.addBtn);
+        edit.setText("Update");
         isEditMod = true;
 
 
+    }
+
+    private void resetPanel(){
+
+        contactName.setText("");
+        contactNumber.setText("");
+        contactWNumber.setText("");
+        contactONumber.setText("");
+        contactEmail.setText("");
+        contactAddress.setText("");
+        contactPic.setImageURI(Uri.parse("android.resource://com.example.saber.contactmanager/drawable/user"));
     }
 
 
@@ -222,7 +290,8 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK){
             if(requestCode == 1) {
-                imgURI = data.getData();
+                imgURI = (Uri)data.getData();
+                Log.d("Image", imgURI.toString());
                 contactPic.setImageURI(data.getData());
             }
         }
@@ -255,6 +324,12 @@ public class MainActivity extends AppCompatActivity {
 
         TextView phone=(TextView) view.findViewById(R.id.phoneNumber);
         phone.setText(currentContact.getPhone());
+
+        TextView wphone=(TextView) view.findViewById(R.id.wPhoneNum);
+        wphone.setText(currentContact.getWPhone());
+
+        TextView ophone=(TextView) view.findViewById(R.id.oPhoneNum);
+        ophone.setText(currentContact.getOPhone());
 
         TextView email=(TextView) view.findViewById(R.id.emailAddress);
         email.setText(currentContact.getEmail());
