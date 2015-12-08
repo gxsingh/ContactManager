@@ -34,6 +34,6 @@ Issues - we couldn't get Github working and when we did, we used one computer to
 
 Contributions:
 GagandeepSingh - Database.java , EditContact.java and JavaDocs
-SaburKhan - MainActivity.java and Contact.java
+SaburKhan - MainActivity.java , Contact.java , UserManual and ReadMe
 AndrewJulian - MainActivity.java , Contact.java and Unit tests
 KaranKaul - Nothing didn't show up. No contribution
