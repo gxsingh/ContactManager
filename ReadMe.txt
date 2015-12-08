@@ -11,10 +11,25 @@ ContactManager\app\build\outputs\apk\app-debug-unaligned.apk
 
 (javadocs)
 https://github.com/gxsingh/ContactManager/tree/master/JavaDocs
+
+
+
+
+
+
+
+
 Repository:(Inlcudes everything Source files, apk , java docs and readme.txt)
 https://github.com/gxsingh/ContactManager
 
 Issues - we couldn't get Github working and when we did, we used one computer to commit because some group members didn't have performance computers to be able to run Android Studio. We used notepad++ to make the .java files and got together with the person whose computer could run android studio and we took turns implementing our specified parts into the app.
+
+
+
+
+
+
+
 
 
 Contributions:
