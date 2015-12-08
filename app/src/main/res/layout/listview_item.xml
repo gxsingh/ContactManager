@@ -6,7 +6,8 @@
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/imageContactLV" />
+        android:id="@+id/imageViewContactPic"
+        android:src="@drawable/user"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -18,7 +19,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Name"
-            android:id="@+id/contactName" />
+            android:id="@+id/contactName"
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,8 +28,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Phone"
             android:id="@+id/phoneNumber"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,8 +36,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Phone"
             android:id="@+id/wPhoneNum"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,8 +44,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Phone"
             android:id="@+id/oPhoneNum"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,7 +52,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Email"
             android:id="@+id/emailAddress"
-            android:layout_gravity="center_horizontal" />
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,7 +60,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Address"
             android:id="@+id/cAddress"
-            android:layout_gravity="center_horizontal" />
+            android:layout_marginTop="5dp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -2,39 +2,18 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jar="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.1.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\pre-dexed\debug\classes-13ec8f29a5933aa3b818c6a00532170d71e4f7f6.jar" />
+        sha1="4477ea44f5ec5ad064022a22691732d7638ff197">
+        <dex dex="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\pre-dexed\debug\classes-a54b351ba888298acdce30256843026b36ac05f6.jar" />
     </item>
     <item
-        jar="C:\Users\Gagandeep\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
+        jar="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.1.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-395e4ba0ab8e8f9ad63acafd2698913e8be1232b.jar" />
-    </item>
-    <item
-        jar="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\pre-dexed\debug\classes-797808264064b15345e7a89c93720bddf63421c9.jar" />
-    </item>
-    <item
-        jar="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\exploded-aar\com.android.support\design\23.0.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
-        <dex dex="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\pre-dexed\debug\classes-b7efa6437d6c1c44e1212344cbc7583f0fd64cdc.jar" />
-    </item>
-    <item
-        jar="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
-        <dex dex="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-238e397386f21023d8e69f1275b02feadbb5a8fc.jar" />
+        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
+        <dex dex="C:\Users\Gagandeep\AndroidStudioProjects\ContactManager1\app\build\intermediates\pre-dexed\debug\classes-c9d9c863322a1661e3f3f2ba6ddd5db8ff9b11c1.jar" />
     </item>
 
 </items>
